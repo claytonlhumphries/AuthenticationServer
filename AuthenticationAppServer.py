@@ -15,7 +15,7 @@ class CommMonitor:
 
 class ComServer:
 
-    ji = QueryProcessor.ReturnQuery()
+    qp = QueryProcessor.ReturnQuery("authenticationdb", "tadmin", "67yuhjnm")
     h_ip = None
     h_port = None
     server = None
@@ -97,7 +97,6 @@ class ComServer:
         :param h_port: port number
         :type h_port: int
         """
-        self.ji = QueryProcessor.ReturnQuery()
         self.h_ip = h_ip
         self.h_port = h_port
         self.thread_pool = ThreadPoolExecutor(4)
@@ -107,7 +106,7 @@ class ComServer:
             asyncio.run(self.main())
 
         except KeyboardInterrupt:
-            Logger.Log("Logger Manually Stopped", 3)
+            Logger.Log("App Manually Stopped", 3)
 
         except Exception as e:
             Logger.Log(e.args, 1, "Main Loop")
@@ -119,4 +118,6 @@ class ComServer:
         :type data: dict
         :rtype: tuple[dict, bool]
         """
+        data = json.dumps(self.qp.sql_decision_tree(data))
 
+        return data, True

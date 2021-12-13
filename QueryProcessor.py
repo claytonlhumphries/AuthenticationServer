@@ -128,11 +128,11 @@ class ReturnQuery:
                 if while_loop_count == 5:
                     break
 
-                if is_auth is None:
+                if is_auth is None or is_auth == "null":
                     return_value = cd.auth_decision(json_inbound)
 
                 elif not is_auth or is_auth == "False" or is_auth or is_auth == "True":
-                    return_value = json_file
+                    return_value = json_inbound
 
             except Exception as e:
                 Logger.Log("Exception: " + str(e.args), 2, "Auth App: Query Processor")

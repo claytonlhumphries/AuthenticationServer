@@ -37899,3 +37899,26 @@
 2021-12-13 03:45:32,403 [INFO] ||Query Processor Loops|| 3
 2021-12-13 03:45:32,403 [INFO] ||Query Processor Loops|| 4
 2021-12-13 03:45:32,403 [INFO] ||Query Processor Loops|| 5
+2021-12-13 04:07:05,056 [INFO]  **** App Started ****
+2021-12-13 04:07:05,056 [WARNING] ||Main Loop|| (10013, "error while attempting to bind on address ('127.0.0.1', 3306): an attempt was made to access a socket in a way forbidden by its access permissions")
+2021-12-13 04:08:54,874 [INFO]  **** App Started ****
+2021-12-13 04:08:54,874 [WARNING] ||Main Loop|| (10013, "error while attempting to bind on address ('::1', 3306, 0, 0): an attempt was made to access a socket in a way forbidden by its access permissions")
+2021-12-13 04:10:11,376 [INFO]  **** App Started ****
+2021-12-13 04:10:17,173 [INFO]  Logger Manually Stopped
+2021-12-13 04:13:03,874 [INFO]  **** App Started ****
+2021-12-13 04:13:35,726 [INFO]  Logger Manually Stopped
+2021-12-13 04:14:03,493 [INFO]  **** App Started ****
+2021-12-13 04:14:10,445 [INFO]  Logger Manually Stopped
+2021-12-13 04:15:52,306 [INFO]  **** App Started ****
+2021-12-13 04:15:58,416 [INFO]  Logger Manually Stopped
+2021-12-13 04:16:56,320 [INFO]  **** App Started ****
+2021-12-13 04:17:03,624 [INFO]  Logger Manually Stopped
+2021-12-13 04:17:58,616 [INFO]  **** App Started ****
+2021-12-13 04:18:08,264 [INFO]  Logger Manually Stopped
+2021-12-13 04:18:45,353 [INFO]  **** App Started ****
+2021-12-13 04:18:51,787 [INFO]  Logger Manually Stopped
+2021-12-13 04:19:52,160 [INFO]  **** App Started ****
+2021-12-13 04:20:02,170 [INFO]  Logger Manually Stopped
+2021-12-13 04:20:19,256 [INFO]  **** App Started ****
+2021-12-13 04:20:25,215 [INFO]  Logger Manually Stopped
+2021-12-13 04:21:52,609 [INFO]  **** App Started ****
