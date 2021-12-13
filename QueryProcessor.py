@@ -29,19 +29,19 @@ class ReturnQuery:
     mc09 = 1
     mc010 = 1
 
-    def __init__(self):
+    def __init__(self, database_name, user_name, password):
         try:
-            mc0.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc1.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc2.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc3.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc4.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc5.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc6.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc7.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc8.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc9.start_database_connect('city', 'tadmin', '67yuhjnm')
-            mc10.start_database_connect('city', 'tadmin', '67yuhjnm')
+            mc0.start_database_connect(database_name, user_name, password)
+            mc1.start_database_connect(database_name, user_name, password)
+            mc2.start_database_connect(database_name, user_name, password)
+            mc3.start_database_connect(database_name, user_name, password)
+            mc4.start_database_connect(database_name, user_name, password)
+            mc5.start_database_connect(database_name, user_name, password)
+            mc6.start_database_connect(database_name, user_name, password)
+            mc7.start_database_connect(database_name, user_name, password)
+            mc8.start_database_connect(database_name, user_name, password)
+            mc9.start_database_connect(database_name, user_name, password)
+            mc10.start_database_connect(database_name, user_name, password)
 
         except Exception as e:
             Logger.Log(e.args, 2, "Query Processor Connections")
@@ -115,52 +115,31 @@ class ReturnQuery:
         cd = self.socket_connection_decision()
         json_inbound = json.loads(json_file)
         return_value = {}
-        while_loop_count = 1
+        while_loop_count = 0
 
         while return_value == "(0, '')" or return_value == {}:
             try:
-                task_value = json_inbound['task']
-
-                if task_value == 'rtv-all-usr':
-                    return_value = cd.select_all_from_table(json_inbound['tabl'])
-
-                elif task_value == 'rtv-all-dbs-tbl':
-                    return_value = cd.list_databases()
-
-                elif task_value == 'crt-dbs-tbl':
-                    return_value = cd.create_table(json_inbound['tabl'], json_inbound['vrb1'])
-
-                elif task_value == 'rtv-col-nms':
-                    return_value = cd.get_table_column_names(json_inbound['tabl'])
-
-                elif task_value == 'ins-dbs-tbl':
-                    return_value = cd.insert_data(json_inbound['tabl'], json_inbound['vrb1'], json_inbound['vrb1'])
-
-                elif task_value == 'upd-tbl-rcd':
-                    return_value = cd.update_record(json_inbound['tabl'], json_inbound['vrb1'], json_inbound['vrb2'],
-                                                    json_inbound['vrb3'])
-
-                elif task_value == 'rtv-usr-col':
-                    return_value = cd.select_column_names_per_user_from_table(json_inbound['tabl'], json_inbound['vrb1'],
-                                                                              json_inbound['vrb2'])
-
-                elif task_value == 'crt-sql-rcd':
-                    return_value = cd.create_sql_statement(json_inbound['tabl'], json_inbound['vrb1'])
-
-                elif task_value == 'dlt-tbl-rcd':
-                    return_value = cd.delete_record(json_inbound['tabl'], json_inbound['vrb1'])
-
-                elif while_loop_count == 5:
-                    Logger.Log("Invalid Query", 2, "Query Processor")
-                    return {'ERROR': 'Invalid Query'}
+                while_loop_count += 1
+                is_auth = json_inbound["ROUTER"]["Authentication"]["is_auth"]
 
                 if while_loop_count > 1:
                     Logger.Log(while_loop_count, 3, "Query Processor Loops")
 
-                while_loop_count += 1
+                if while_loop_count == 5:
+                    break
+
+                if is_auth is None:
+                    return_value = cd.auth_decision(json_inbound)
+
+                elif not is_auth or is_auth == "False" or is_auth or is_auth == "True":
+                    return_value = json_file
 
             except Exception as e:
-                Logger.Log("Exception: " + str(e.args), 2, "Query Processor")
+                Logger.Log("Exception: " + str(e.args), 2, "Auth App: Query Processor")
+
+                if 1054 in e.args:
+                    Logger.Log("Exception: " + str(e.args), 2, "Auth App: Query Processor")
+                    return {'error': 'Unknown column password in field list'}
 
         return return_value
 
