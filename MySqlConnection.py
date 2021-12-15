@@ -53,6 +53,24 @@ class DatabaseConnection:
 
         return json_dict
 
+    def app_approval_decision(self, json_dict):
+        if json_dict["ROUTER"]["Authentication"]["is_auth"] is True or \
+                json_dict["ROUTER"]["Authentication"]["is_auth"] == "true":
+
+            user_id = json_dict["ROUTER"]["Authentication"]["user_id"]
+            user_details = self.select_column_names_per_user_from_table("user_authentication",
+                                                                        ["qual_features"], user_id)
+            requested_app = json_dict["ROUTER"]["Apps"]["request_app"]
+            features = user_details[0]['qual_features']
+
+            if requested_app in features:
+                json_dict["ROUTER"]["Apps"]["request_app_approval"] = True
+
+            else:
+                json_dict["ROUTER"]["Apps"]["request_app_approval"] = False
+
+        return json_dict
+
     def close_database_connection(self):
         """"
         Closes the database connection
@@ -301,7 +319,10 @@ class DatabaseConnection:
 
         for name in column_name:
 
-            if x == 1:
+            if len(column_name) == 1:
+                sql = "Select " + name + " FROM " + table_name + " WHERE iduser = " + str(user_id)
+
+            elif x == 1:
                 sql = "Select " + name + ","
 
             elif x != len(column_name):

@@ -7,9 +7,9 @@ while True:
     json_dict = {
         'SQL': {'task': 'param', 'dbs_name': 'param', 'tbl_name': 'param', 'vrbl1': 'param', 'vrbl2': 'param',
                 'vrbl3': 'param'},
-        'ROUTER': {'Authentication': {'user_name': 'chump', 'password': 'qwerty', 'user_id': '2', 'is_auth': None},
-                   'Authorization': {'qual_features': 'param', 'access_level': 'param', 'app_approval': 'param'},
-                   'Apps': {'request_app': 'param', 'request_app_approval': 'param', 'dest_app': 'param'}}}
+        'ROUTER': {'Authentication': {'user_name': 'chump', 'password': 'qwerty', 'user_id': '1', 'is_auth': None},
+                   'Authorization': {'qual_features': 'param', 'access_level': 'param', 'app_approval': None},
+                   'Apps': {'request_app': 'tits', 'request_app_approval': None, 'dest_app': 'param'}}}
     #jsonResult = {"first": "You're", "second": "Awesome!"}
     json_dict = json.dumps(json_dict)
 

@@ -110,7 +110,7 @@ class ReturnQuery:
             self.mc010 += 1
             return mc10
 
-    def sql_decision_tree(self, json_file):
+    def auth_decision(self, json_file):
 
         cd = self.socket_connection_decision()
         json_inbound = json.loads(json_file)
@@ -139,6 +139,39 @@ class ReturnQuery:
 
                 if 1054 in e.args:
                     Logger.Log("Exception: " + str(e.args), 2, "Auth App: Query Processor")
+                    return {'error': 'Unknown column password in field list'}
+
+        return return_value
+
+    def app_approval_decision(self, json_file):
+
+        cd = self.socket_connection_decision()
+        json_inbound = json.loads(json_file)
+        return_value = {}
+        while_loop_count = 0
+
+        while return_value == "(0, '')" or return_value == {}:
+            try:
+                while_loop_count += 1
+                is_auth = json_inbound["ROUTER"]["Authorization"]["app_approval"]
+
+                if while_loop_count > 1:
+                    Logger.Log(while_loop_count, 3, "Query Processor Loops")
+
+                if while_loop_count == 5:
+                    break
+
+                if is_auth is None or is_auth == "null":
+                    return_value = cd.app_approval_decision(json_inbound)
+
+                elif not is_auth or is_auth == "False" or is_auth or is_auth == "True":
+                    return_value = json_inbound
+
+            except Exception as e:
+                Logger.Log("Exception: " + str(e.args), 2, "App Approval: Query Processor")
+
+                if 1054 in e.args:
+                    Logger.Log("Exception: " + str(e.args), 2, "App Approval: Query Processor")
                     return {'error': 'Unknown column password in field list'}
 
         return return_value

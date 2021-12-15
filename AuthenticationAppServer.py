@@ -118,6 +118,7 @@ class ComServer:
         :type data: dict
         :rtype: tuple[dict, bool]
         """
-        data = json.dumps(self.qp.sql_decision_tree(data))
+        data = json.dumps(self.qp.auth_decision(data))
+        data = json.dumps(self.qp.app_approval_decision(data))
 
         return data, True
