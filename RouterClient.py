@@ -9,7 +9,7 @@ while True:
                 'vrbl3': 'param'},
         'ROUTER': {'Authentication': {'user_name': 'chump', 'password': 'qwerty', 'user_id': '1', 'is_auth': None},
                    'Authorization': {'qual_features': 'param', 'access_level': 'param', 'app_approval': None},
-                   'Apps': {'request_app': 'tits', 'request_app_approval': None, 'dest_app': 'param'}}}
+                   'Apps': {'request_app': 'stripe', 'request_app_approval': None, 'dest_app': 'param'}}}
     #jsonResult = {"first": "You're", "second": "Awesome!"}
     json_dict = json.dumps(json_dict)
 

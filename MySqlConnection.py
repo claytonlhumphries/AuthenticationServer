@@ -2,6 +2,8 @@ import sys
 import mysql.connector
 import pymysql.cursors
 import Logger
+import rsa
+from cryptography.fernet import Fernet
 
 
 
@@ -12,6 +14,29 @@ class DatabaseConnection:
     db_cursor = None
     database_name_list = []
     database_table_list = []
+
+    key = b'fHdqLrNrYHkExfUBmX0YZMgBe8HYXelp0eQ9Z04P-_U='
+    fernet = Fernet(key)
+
+    def encrypt(self, data):
+        """
+        Use to encrypt a string
+        :param data: string to encrypt
+        :type data: str
+        :rtype: str
+        """
+        data = self.fernet.encrypt(data.encode())
+        return data.decode()
+
+    def decrypt(self, data):
+        """
+        Use to encrypt a string
+        :param data: string to decrypt
+        :type data: str
+        :rtype: str
+        """
+        data = self.fernet.decrypt(data.encode())
+        return data.decode()
 
     def start_database_connect(self, database_name, user_name, password):
         """
@@ -45,7 +70,7 @@ class DatabaseConnection:
         user_details = self.select_column_names_per_user_from_table("user_authentication", ["user_name", "password"],
                                                                     user_id)
 
-        if user_name == user_details[0]['user_name'] and password == user_details[0]['password']:
+        if user_name == self.decrypt(user_details[0]['user_name']) and password == self.decrypt(user_details[0]['password']):
             json_dict["ROUTER"]["Authentication"]["is_auth"] = True
 
         else:
@@ -70,7 +95,6 @@ class DatabaseConnection:
                 json_dict["ROUTER"]["Apps"]["request_app_approval"] = False
 
         return json_dict
-
     def close_database_connection(self):
         """"
         Closes the database connection
@@ -226,6 +250,9 @@ class DatabaseConnection:
         :param column_value: column value
         :type column_value: str
         """
+        if column_name == 'password' or column_name == "user_name":
+            column_value = self.encrypt(column_name)
+
         sql = "UPDATE " + table_name + " SET " + column_name + " = " + column_value + " WHERE ID = " + str(user_id)
 
         self.db_cursor.execute(sql)
